@@ -56,19 +56,19 @@ state = {
 
 {/* This renders a pokemon card */}
              <div className="poke-list">
-             <div classname="poke-card">
+             
              {
                  this.state.data.map(data => {
-                 return <>
+                 return <div className="poke-card">
                  <h2>{data.pokemon}</h2>
                  <img src={data.url_image} alt={data.pokemon}/>
                  <h3>Type: {data.type_1}, {data.type_2}</h3>
                  <h3>Attack: {data.attack}</h3>
                  <h3>Defense: {data.defense}</h3>
-                 </>
+                 </div>
                  })
              } 
-            </div>
+           
             </div>
 
            

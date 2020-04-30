@@ -26,13 +26,14 @@ h1 {
   
 }
 
-.poke-card {
+.poke-list {
   display: grid;
   grid-template-columns: 20% 20% 20%;
   grid-template-rows: 20% 20% 20% 20%;
 }
 
-.poke-item {
+.poke-card {
   width: 200px;
   border: 1px solid black;
+  background-color: white;
 }
