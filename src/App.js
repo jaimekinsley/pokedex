@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import request from 'superagent';
 import Header from './Header.js'
 import "./App.css"; 
+import SearchBar from './SearchBar.js'
 
 export default class App extends Component {
 state = {
@@ -39,12 +40,12 @@ state = {
     return (
       <div> 
         <Header/>
+
 {/* this creates the search input and button */}
-        <div className='search-name'>
-        Search by name or type:
-       <input onChange={this.handleChange}/>
-       <button onClick={this.handleClick}>Search</button>
-       </div>
+        <SearchBar 
+        CALLBACKhandleChange={this.handleChange}
+        CALLBACKhandleClick={this.handleClick}
+        />
 
 {/* this creates the search attack input and button */}
       <div className='search-attack'>
@@ -75,4 +76,6 @@ state = {
        </div>
     )
   }
+
+
 }
