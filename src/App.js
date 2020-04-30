@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import request from 'superagent';
-
+import Header from './Header.js'
+import "./App.css"; 
 
 export default class App extends Component {
 state = {
@@ -8,17 +9,19 @@ state = {
   data: [],
 }
 
+    // gets the value of input as it is typed in the input field
   handleChange = (event) => {
-    // gets the value of input
     const value = event.target.value;
     this.setState({ searchQuery: value });
   }
 
+  // On click, this searches the pokemon API for what has been entered into the input field
   handleClick = async () => {
     const fetchedData = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?pokemon=${this.state.searchQuery}`);
     this.setState({ data: fetchedData.body.results });
   }
 
+  // On click, this fetches everything in the pokemon API, filters the results for anything in the attack property that is greater or equal to the user's input
   handleAttackClick = async () => {
     const fetchedData = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex`);
     const attackData = fetchedData.body.results.filter((e) => {
@@ -35,22 +38,25 @@ state = {
   render() {
     return (
       <div> 
-
-        <div className='searchName'>
+        <Header/>
+{/* this creates the search input and button */}
+        <div className='search-name'>
         Search by name or type:
        <input onChange={this.handleChange}/>
        <button onClick={this.handleClick}>Search</button>
        </div>
 
-      <div className='searchAttack'>
+{/* this creates the search attack input and button */}
+      <div className='search-attack'>
         Search by attack minimum:
       <input onChange={this.handleChange}/>
        <button onClick={this.handleAttackClick}>Search</button>
       </div>
 
 
-
-             <div>
+{/* This renders a pokemon card */}
+             <div className="poke-list">
+             <div classname="poke-card">
              {
                  this.state.data.map(data => {
                  return <>
@@ -62,6 +68,7 @@ state = {
                  </>
                  })
              } 
+            </div>
             </div>
 
            
