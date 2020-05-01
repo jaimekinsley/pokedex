@@ -15,7 +15,7 @@ export default class App extends Component {
                         render={(routerProps) => <SearchPage {...routerProps}/>}
                         />
                         <Route
-                        path="/:pokemon/:id"
+                        path="/pokemon/:id"
                         render={(routerProps) => <DetailPage {...routerProps}/>}
                         />
                     </Switch>
