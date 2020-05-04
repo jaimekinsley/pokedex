@@ -7,13 +7,42 @@ import PokeCard from './PokeCard.js'
 
 
 export default class App extends Component {
-state = {
-  searchQuery: null,
+
+  state = {
+  searchQuery: '',
   data: [],
   page: 1,
+  body: {},
+  // search: ''
 }
 
+async componentDidMount(){
+  const searchParams = new URLSearchParams(window.location.search);
+  console.log(searchParams)
+  const query = searchParams.get('search');
+  console.log(query)
 
+  this.setState( {searchQuery: query} );
+
+
+
+  if (query) {
+    let page = 1;
+    // let response = {};
+
+    if (searchParams.get('page')){
+      page = searchParams.get('page');
+    
+  }
+  const response = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?pokemon=${query}&page=${page}`)
+  const results = response.body.results;
+  this.setState({ data: results }) 
+  } else {
+    const response = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex`)
+    const results = response.body.results;
+    this.setState({ data: results }) 
+  }
+}
 
 
     // gets the value of input as it is typed in the input field
@@ -41,7 +70,28 @@ state = {
     this.setState({ data: attackData });
   }
 
+  // creates the fetch for the page number
+  routeToNextPage = async () => {
+    const nextPageNumber = this.state.page + 1;  
+    this.setState({ page: nextPageNumber }) 
   
+   const response = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?pokemon=${this.state.searchQuery}&page=${nextPageNumber}`);
+   const results = response.body.results;
+   this.setState({ data: results })
+
+  }
+
+  // creates the fetch for the previous page numg34
+  routeToPreviousPage = async () => {
+    const previousPageNumber = this.state.page - 1;  
+    this.setState({ page: previousPageNumber }) 
+  
+   const response = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?pokemon=${this.state.searchQuery}&page=${previousPageNumber}`);
+   const results = response.body.results;
+   this.setState({ data: results })
+
+  }
+ 
 
   render() {
     return (
@@ -63,6 +113,10 @@ state = {
 
 {/* // This renders a pokemon card */}
       <div>
+        {/* This renders the previous and next buttons */}
+      <button onClick={this.routeToPreviousPage}>Previous</button>
+              
+              <button onClick={this.routeToNextPage}>Next</button>
       {
                   this.state.data.map((door) => {
                     return <PokeCard pokemon={door}/>
@@ -70,12 +124,14 @@ state = {
                 }
       </div>
 
+
+
        </div>
     )
   }
-
-
 }
+
+
 
 // {/* This renders a pokemon card */}
 //              {/* <div className="poke-list">
