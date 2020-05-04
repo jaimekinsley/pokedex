@@ -10,13 +10,18 @@ export default class App extends Component {
 state = {
   searchQuery: null,
   data: [],
+  page: 1,
 }
+
+
+
 
     // gets the value of input as it is typed in the input field
   handleChange = (event) => {
     const value = event.target.value;
     this.setState({ searchQuery: value });
   }
+
 
   // On click, this searches the pokemon API for what has been entered into the input field
   handleClick = async () => {
