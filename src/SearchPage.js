@@ -3,6 +3,7 @@ import request from 'superagent';
 import Header from './Header.js'
 import "./App.css"; 
 import SearchBar from './SearchBar.js'
+import PokeCard from './PokeCard.js'
 
 
 export default class App extends Component {
@@ -55,28 +56,35 @@ state = {
        <button onClick={this.handleAttackClick}>Search</button>
       </div>
 
+{/* // This renders a pokemon card */}
+      <div>
+      {
+                  this.state.data.map((door) => {
+                    return <PokeCard pokemon={door}/>
+                  })  
+                }
+      </div>
 
-{/* This renders a pokemon card */}
-             <div className="poke-list">
-             
-             {
-                 this.state.data.map(data => {
-                 return <div className="poke-card">
-                <h2>{data.pokemon}</h2>
-                 <img src={data.url_image} alt={data.pokemon}/>
-                 <h3>Type: {data.type_1}, {data.type_2}</h3>
-                 <h3>Attack: {data.attack}</h3>
-                 <h3>Defense: {data.defense}</h3>
-                 </div>
-                 })
-             } 
-           
-            </div>
-
-           
        </div>
     )
   }
 
 
 }
+
+// {/* This renders a pokemon card */}
+//              {/* <div className="poke-list">
+             
+//              {
+//                  this.state.data.map(data => {
+//                  return <div className="poke-card">
+//                 <h2>{data.pokemon}</h2>
+//                  <img src={data.url_image} alt={data.pokemon}/>
+//                  <h3>Type: {data.type_1}, {data.type_2}</h3>
+//                  <h3>Attack: {data.attack}</h3>
+//                  <h3>Defense: {data.defense}</h3>
+//                  </div>
+//                  })
+//              } 
+           
+//             </div> */}
