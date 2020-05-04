@@ -11,6 +11,7 @@ state = {
   searchQuery: null,
   data: [],
   page: 1,
+  body: {}
 }
 
 
@@ -41,6 +42,29 @@ state = {
     this.setState({ data: attackData });
   }
 
+  // creates the fetch for the page number
+  routeToNextPage = async () => {
+    const nextPageNumber = this.state.page + 1;  
+    this.setState({ page: nextPageNumber }) 
+  
+   const response = await request.get(this.state.body.next);
+   const results = response.body.results;
+   const page = response.body.page;
+   this.setState({ pokemon: results, body: page })
+
+  }
+
+  // creates the fetch for the previous page numg34
+  routeToPreviousPage = async () => {
+    const previousPageNumber = this.state.page - 1;  
+    this.setState({ page: previousPageNumber }) 
+  
+   const response = await request.get(this.state.body.prev);
+   const results = response.body.results;
+   const page = response.body.page;
+   this.setState({ pokemon: results, body: page })
+
+  }
   
 
   render() {
@@ -69,6 +93,11 @@ state = {
                   })  
                 }
       </div>
+
+{/* This renders the previous and next buttons */}
+      {this.state.info.prev && <button onClick={this.routeToPreviousPage}>Previous</button>}
+              
+              {this.state.info.next && <button onClick={this.routeToNextPage}>Next</button>}
 
        </div>
     )
