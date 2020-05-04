@@ -7,14 +7,42 @@ import PokeCard from './PokeCard.js'
 
 
 export default class App extends Component {
-state = {
-  searchQuery: null,
+
+  state = {
+  searchQuery: '',
   data: [],
   page: 1,
-  body: {}
+  body: {},
+  // search: ''
 }
 
+async componentDidMount(){
+  const searchParams = new URLSearchParams(window.location.search);
+  console.log(searchParams)
+  const query = searchParams.get('search');
+  console.log(query)
 
+  this.setState( {searchQuery: query} );
+
+
+
+  if (query) {
+    let page = 1;
+    // let response = {};
+
+    if (searchParams.get('page')){
+      page = searchParams.get('page');
+    
+  }
+  const response = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?pokemon=${query}&page=${page}`)
+  const results = response.body.results;
+  this.setState({ data: results }) 
+  } else {
+    const response = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex`)
+    const results = response.body.results;
+    this.setState({ data: results }) 
+  }
+}
 
 
     // gets the value of input as it is typed in the input field
@@ -63,7 +91,7 @@ state = {
    this.setState({ data: results })
 
   }
-  
+ 
 
   render() {
     return (
@@ -101,9 +129,9 @@ state = {
        </div>
     )
   }
-
-
 }
+
+
 
 // {/* This renders a pokemon card */}
 //              {/* <div className="poke-list">
