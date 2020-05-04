@@ -47,10 +47,9 @@ state = {
     const nextPageNumber = this.state.page + 1;  
     this.setState({ page: nextPageNumber }) 
   
-   const response = await request.get(this.state.body.next);
+   const response = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?pokemon=${this.state.searchQuery}&page=${nextPageNumber}`);
    const results = response.body.results;
-   const page = response.body.page;
-   this.setState({ pokemon: results, body: page })
+   this.setState({ data: results })
 
   }
 
@@ -59,10 +58,9 @@ state = {
     const previousPageNumber = this.state.page - 1;  
     this.setState({ page: previousPageNumber }) 
   
-   const response = await request.get(this.state.body.prev);
+   const response = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?pokemon=${this.state.searchQuery}&page=${previousPageNumber}`);
    const results = response.body.results;
-   const page = response.body.page;
-   this.setState({ pokemon: results, body: page })
+   this.setState({ data: results })
 
   }
   
@@ -87,6 +85,10 @@ state = {
 
 {/* // This renders a pokemon card */}
       <div>
+        {/* This renders the previous and next buttons */}
+      <button onClick={this.routeToPreviousPage}>Previous</button>
+              
+              <button onClick={this.routeToNextPage}>Next</button>
       {
                   this.state.data.map((door) => {
                     return <PokeCard pokemon={door}/>
@@ -94,10 +96,7 @@ state = {
                 }
       </div>
 
-{/* This renders the previous and next buttons */}
-      {this.state.info.prev && <button onClick={this.routeToPreviousPage}>Previous</button>}
-              
-              {this.state.info.next && <button onClick={this.routeToNextPage}>Next</button>}
+
 
        </div>
     )
